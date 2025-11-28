@@ -67,6 +67,8 @@
             this.btnGenerar.TabIndex = 2;
             this.btnGenerar.Text = "Generar";
             this.btnGenerar.UseVisualStyleBackColor = true;
+            // Suscripción del evento Click al manejador existente:
+            this.btnGenerar.Click += new System.EventHandler(this.btnGenerar_Click);
             // 
             // btnOrdenar
             // 
