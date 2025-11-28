@@ -35,8 +35,8 @@
             this.btnJump = new System.Windows.Forms.Button();
             this.btnInterpolada = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lstOrdenada = new System.Windows.Forms.ListView();
             this.lstDatos = new System.Windows.Forms.ListView();
-            this.listView1 = new System.Windows.Forms.ListView();
             this.lblInicio = new System.Windows.Forms.Label();
             this.lblFin = new System.Windows.Forms.Label();
             this.lblDuracion = new System.Windows.Forms.Label();
@@ -76,6 +76,7 @@
             this.btnOrdenar.TabIndex = 3;
             this.btnOrdenar.Text = "Ordenar";
             this.btnOrdenar.UseVisualStyleBackColor = true;
+            this.btnOrdenar.Click += new System.EventHandler(this.btnOrdenar_Click);
             // 
             // btnJump
             // 
@@ -97,7 +98,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.listView1);
+            this.groupBox1.Controls.Add(this.lstOrdenada);
             this.groupBox1.Controls.Add(this.lstDatos);
             this.groupBox1.Location = new System.Drawing.Point(56, 205);
             this.groupBox1.Name = "groupBox1";
@@ -105,6 +106,15 @@
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Registros: 0";
+            // 
+            // lstOrdenada
+            // 
+            this.lstOrdenada.HideSelection = false;
+            this.lstOrdenada.Location = new System.Drawing.Point(179, 21);
+            this.lstOrdenada.Name = "lstOrdenada";
+            this.lstOrdenada.Size = new System.Drawing.Size(157, 168);
+            this.lstOrdenada.TabIndex = 1;
+            this.lstOrdenada.UseCompatibleStateImageBehavior = false;
             // 
             // lstDatos
             // 
@@ -114,15 +124,6 @@
             this.lstDatos.Size = new System.Drawing.Size(151, 168);
             this.lstDatos.TabIndex = 0;
             this.lstDatos.UseCompatibleStateImageBehavior = false;
-            // 
-            // listView1
-            // 
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(179, 21);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(157, 168);
-            this.listView1.TabIndex = 1;
-            this.listView1.UseCompatibleStateImageBehavior = false;
             // 
             // lblInicio
             // 
@@ -147,9 +148,9 @@
             this.lblDuracion.AutoSize = true;
             this.lblDuracion.Location = new System.Drawing.Point(53, 524);
             this.lblDuracion.Name = "lblDuracion";
-            this.lblDuracion.Size = new System.Drawing.Size(64, 16);
+            this.lblDuracion.Size = new System.Drawing.Size(139, 16);
             this.lblDuracion.TabIndex = 9;
-            this.lblDuracion.Text = "Duracion:";
+            this.lblDuracion.Text = "Duracion: 0 Segundos";
             // 
             // Form1
             // 
@@ -167,6 +168,8 @@
             this.Controls.Add(this.txtCantidad);
             this.Controls.Add(this.label1);
             this.Name = "Form1";
+            this.Text = "Analisis de Ordenamiento y Busqueda";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -182,7 +185,7 @@
         private System.Windows.Forms.Button btnJump;
         private System.Windows.Forms.Button btnInterpolada;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView lstOrdenada;
         private System.Windows.Forms.ListView lstDatos;
         private System.Windows.Forms.Label lblInicio;
         private System.Windows.Forms.Label lblFin;
