@@ -30,16 +30,23 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.txtCantidad = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.btnGenerar = new System.Windows.Forms.Button();
+            this.btnOrdenar = new System.Windows.Forms.Button();
+            this.btnJump = new System.Windows.Forms.Button();
+            this.btnInterpolada = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lstDatos = new System.Windows.Forms.ListView();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.lblInicio = new System.Windows.Forms.Label();
+            this.lblFin = new System.Windows.Forms.Label();
+            this.lblDuracion = new System.Windows.Forms.Label();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(53, 29);
+            this.label1.Location = new System.Drawing.Point(53, 26);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(144, 16);
             this.label1.TabIndex = 0;
@@ -47,59 +54,120 @@
             // 
             // txtCantidad
             // 
-            this.txtCantidad.Location = new System.Drawing.Point(221, 26);
+            this.txtCantidad.Location = new System.Drawing.Point(218, 23);
             this.txtCantidad.Name = "txtCantidad";
-            this.txtCantidad.Size = new System.Drawing.Size(171, 22);
+            this.txtCantidad.Size = new System.Drawing.Size(188, 22);
             this.txtCantidad.TabIndex = 1;
             // 
-            // button1
+            // btnGenerar
             // 
-            this.button1.Location = new System.Drawing.Point(56, 76);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(141, 48);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnGenerar.Location = new System.Drawing.Point(71, 66);
+            this.btnGenerar.Name = "btnGenerar";
+            this.btnGenerar.Size = new System.Drawing.Size(151, 48);
+            this.btnGenerar.TabIndex = 2;
+            this.btnGenerar.Text = "Generar";
+            this.btnGenerar.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // btnOrdenar
             // 
-            this.button2.Location = new System.Drawing.Point(221, 76);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(141, 48);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnOrdenar.Location = new System.Drawing.Point(235, 66);
+            this.btnOrdenar.Name = "btnOrdenar";
+            this.btnOrdenar.Size = new System.Drawing.Size(157, 48);
+            this.btnOrdenar.TabIndex = 3;
+            this.btnOrdenar.Text = "Ordenar";
+            this.btnOrdenar.UseVisualStyleBackColor = true;
             // 
-            // button3
+            // btnJump
             // 
-            this.button3.Location = new System.Drawing.Point(56, 140);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(141, 48);
-            this.button3.TabIndex = 4;
-            this.button3.Text = "button3";
-            this.button3.UseVisualStyleBackColor = true;
+            this.btnJump.Location = new System.Drawing.Point(71, 130);
+            this.btnJump.Name = "btnJump";
+            this.btnJump.Size = new System.Drawing.Size(151, 48);
+            this.btnJump.TabIndex = 4;
+            this.btnJump.Text = "Busqueda Jump";
+            this.btnJump.UseVisualStyleBackColor = true;
             // 
-            // button4
+            // btnInterpolada
             // 
-            this.button4.Location = new System.Drawing.Point(221, 140);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(141, 48);
-            this.button4.TabIndex = 5;
-            this.button4.Text = "button4";
-            this.button4.UseVisualStyleBackColor = true;
+            this.btnInterpolada.Location = new System.Drawing.Point(235, 130);
+            this.btnInterpolada.Name = "btnInterpolada";
+            this.btnInterpolada.Size = new System.Drawing.Size(157, 48);
+            this.btnInterpolada.TabIndex = 5;
+            this.btnInterpolada.Text = "Busqueda Interpolada";
+            this.btnInterpolada.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.listView1);
+            this.groupBox1.Controls.Add(this.lstDatos);
+            this.groupBox1.Location = new System.Drawing.Point(56, 205);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(350, 205);
+            this.groupBox1.TabIndex = 6;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Registros: 0";
+            // 
+            // lstDatos
+            // 
+            this.lstDatos.HideSelection = false;
+            this.lstDatos.Location = new System.Drawing.Point(15, 22);
+            this.lstDatos.Name = "lstDatos";
+            this.lstDatos.Size = new System.Drawing.Size(151, 168);
+            this.lstDatos.TabIndex = 0;
+            this.lstDatos.UseCompatibleStateImageBehavior = false;
+            // 
+            // listView1
+            // 
+            this.listView1.HideSelection = false;
+            this.listView1.Location = new System.Drawing.Point(179, 21);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(157, 168);
+            this.listView1.TabIndex = 1;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            // 
+            // lblInicio
+            // 
+            this.lblInicio.AutoSize = true;
+            this.lblInicio.Location = new System.Drawing.Point(53, 450);
+            this.lblInicio.Name = "lblInicio";
+            this.lblInicio.Size = new System.Drawing.Size(161, 16);
+            this.lblInicio.TabIndex = 7;
+            this.lblInicio.Text = "Tiempo de Inicio: 00.00.00";
+            // 
+            // lblFin
+            // 
+            this.lblFin.AutoSize = true;
+            this.lblFin.Location = new System.Drawing.Point(53, 487);
+            this.lblFin.Name = "lblFin";
+            this.lblFin.Size = new System.Drawing.Size(129, 16);
+            this.lblFin.TabIndex = 8;
+            this.lblFin.Text = "Tiempo Fin: 00.00.00";
+            // 
+            // lblDuracion
+            // 
+            this.lblDuracion.AutoSize = true;
+            this.lblDuracion.Location = new System.Drawing.Point(53, 524);
+            this.lblDuracion.Name = "lblDuracion";
+            this.lblDuracion.Size = new System.Drawing.Size(64, 16);
+            this.lblDuracion.TabIndex = 9;
+            this.lblDuracion.Text = "Duracion:";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(514, 511);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(514, 563);
+            this.Controls.Add(this.lblDuracion);
+            this.Controls.Add(this.lblFin);
+            this.Controls.Add(this.lblInicio);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.btnInterpolada);
+            this.Controls.Add(this.btnJump);
+            this.Controls.Add(this.btnOrdenar);
+            this.Controls.Add(this.btnGenerar);
             this.Controls.Add(this.txtCantidad);
             this.Controls.Add(this.label1);
             this.Name = "Form1";
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -109,10 +177,16 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtCantidad;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button btnGenerar;
+        private System.Windows.Forms.Button btnOrdenar;
+        private System.Windows.Forms.Button btnJump;
+        private System.Windows.Forms.Button btnInterpolada;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView lstDatos;
+        private System.Windows.Forms.Label lblInicio;
+        private System.Windows.Forms.Label lblFin;
+        private System.Windows.Forms.Label lblDuracion;
     }
 }
 
