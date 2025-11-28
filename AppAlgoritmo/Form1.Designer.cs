@@ -67,7 +67,6 @@
             this.btnGenerar.TabIndex = 2;
             this.btnGenerar.Text = "Generar";
             this.btnGenerar.UseVisualStyleBackColor = true;
-            // Suscripción del evento Click al manejador existente:
             this.btnGenerar.Click += new System.EventHandler(this.btnGenerar_Click);
             // 
             // btnOrdenar
@@ -88,6 +87,7 @@
             this.btnJump.TabIndex = 4;
             this.btnJump.Text = "Busqueda Jump";
             this.btnJump.UseVisualStyleBackColor = true;
+            this.btnJump.Click += new System.EventHandler(this.btnJump_Click);
             // 
             // btnInterpolada
             // 

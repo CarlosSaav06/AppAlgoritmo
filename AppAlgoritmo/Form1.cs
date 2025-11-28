@@ -14,7 +14,32 @@ namespace AppAlgoritmo
     public partial class Form1 : Form
     {
         private int[] datos;
-        
+
+        /*
+         PSEUDOCODE / PLAN (in detail)
+         - Provide a correct Jump Search implementation in a separate method:
+             - Method signature: private int JumpSearch(int[] arr, int valor)
+             - If arr is null or empty -> return -1
+             - Compute n = arr.Length
+             - Compute step = floor(sqrt(n))
+             - Iterate blocks:
+                 - while arr[min(step, n)-1] < valor:
+                     - prev = step
+                     - step += floor(sqrt(n))
+                     - if prev >= n -> value not found -> return -1
+             - Linear search from prev to min(step, n)-1:
+                 - if arr[i] == valor -> return i
+             - After loop return -1
+         - Update btnJump_Click event handler:
+             - Verify datos != null and not empty
+             - Prompt user for the integer to search (InputBox)
+             - Parse input to int; if parse fails -> show message and return
+             - Make a sorted copy of datos (since Jump Search requires sorted array)
+             - Call JumpSearch on the sorted copy
+             - Show result in a MessageBox (index or not found)
+         - Keep the rest of the class intact (Generate and Sort functions unchanged)
+        */
+
         public Form1()
         {
             InitializeComponent();
@@ -51,12 +76,12 @@ namespace AppAlgoritmo
                 }
             });
 
-                foreach (var num in datos.Take(5000))
+            foreach (var num in datos.Take(5000))
                 lstDatos.Items.Add(num.ToString());
 
             txtCantidad.Text = $"Registros: {datos.Length}";
             MessageBox.Show("Datos Generados");
-           
+
         }
 
         private void btnOrdenar_Click(object sender, EventArgs e)
@@ -74,9 +99,8 @@ namespace AppAlgoritmo
             sw.Start();
             lblInicio.Text = $"Tiempo de inicio: {DateTime.Now:HH:mm:ss}";
 
-            // SELECTION SORT ó MERGE SORT
             // Cambia según lo que quieras probar:
-            // SelectionSort(copia);
+            // si lo que quieres es Selection Sort, no comentes la siguiente línea y comenta la de MergeSort
             copia = MergeSort(copia);
 
             sw.Stop();
@@ -89,9 +113,9 @@ namespace AppAlgoritmo
             MessageBox.Show("Ordenamiento completado.");
         }
 
-        // =======================
-        //   SELECTION SORT
-        // =======================
+
+        //   realice el algoritmo de Selection Sort
+
         private void SelectionSort(int[] arr)
         {
             int n = arr.Length;
@@ -110,9 +134,9 @@ namespace AppAlgoritmo
             }
         }
 
-        // =======================
-        //      MERGE SORT
-        // =======================
+
+        //  Aqui realice el algoritmo de Merge Sort
+
         private int[] MergeSort(int[] arr)
         {
             if (arr.Length <= 1)
@@ -148,6 +172,33 @@ namespace AppAlgoritmo
                 resultado[k++] = der[j++];
 
             return resultado;
+        }
+
+        // Implementación correcta de Jump Search como método separado
+        private int JumpSearch(int[] arr, int valor)
+        {
+            if (arr == null || arr.Length == 0)
+                return -1;
+
+            int n = arr.Length;
+            int paso = (int)Math.Floor(Math.Sqrt(n));
+            int prev = 0;
+
+            // aca identificamos el bloque donde puede estar el valor
+            while (prev < n && arr[Math.Min(paso, n) - 1] < valor)
+            {
+                prev = paso;
+                paso += (int)Math.Floor(Math.Sqrt(n));
+                if (prev >= n)
+                    return -1;
+            }
+
+            // esto es una busqueda lineal en el bloque identificado
+            for (int i = prev; i < Math.Min(paso, n); i++)
+                if (arr[i] == valor)
+                    return i;
+
+            return -1;
         }
     }
 }
