@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -15,76 +10,69 @@ namespace AppAlgoritmo
     {
         private int[] datos;
 
-        /*
-         PSEUDOCODE / PLAN (in detail)
-         - Provide a correct Jump Search implementation in a separate method:
-             - Method signature: private int JumpSearch(int[] arr, int valor)
-             - If arr is null or empty -> return -1
-             - Compute n = arr.Length
-             - Compute step = floor(sqrt(n))
-             - Iterate blocks:
-                 - while arr[min(step, n)-1] < valor:
-                     - prev = step
-                     - step += floor(sqrt(n))
-                     - if prev >= n -> value not found -> return -1
-             - Linear search from prev to min(step, n)-1:
-                 - if arr[i] == valor -> return i
-             - After loop return -1
-         - Update btnJump_Click event handler:
-             - Verify datos != null and not empty
-             - Prompt user for the integer to search (InputBox)
-             - Parse input to int; if parse fails -> show message and return
-             - Make a sorted copy of datos (since Jump Search requires sorted array)
-             - Call JumpSearch on the sorted copy
-             - Show result in a MessageBox (index or not found)
-         - Keep the rest of the class intact (Generate and Sort functions unchanged)
-        */
-
         public Form1()
         {
             InitializeComponent();
+
+            // Suscribo handlers a los botones para que coincidan con los nombres del diseñador
+            // (btnSelection y BtnMerge están definidos en Form1.Designer.cs)
+            if (btnSelection != null)
+                btnSelection.Click += btnSelectionSort_Click;
+            if (BtnMerge != null)
+                BtnMerge.Click += btnMergeSort_Click;
+            // Aseguro que el botón de búsqueda interpolada también esté suscrito si hace falta
+            if (btnInterpolada != null)
+                btnInterpolada.Click += btnInterpolada_Click;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
         }
 
-        // Aqui realice el algoritmo para que al dar click en el boton Generar se generen los numeros aleatorios
+        // Genera números aleatorios
         private async void btnGenerar_Click(object sender, EventArgs e)
         {
-            int n;
-
-            if (!int.TryParse(txtCantidad.Text, out n))
+            if (!int.TryParse(txtCantidad.Text, out int n) || n <= 0)
             {
-                MessageBox.Show("Ingrese una cantidad válida.");
+                MessageBox.Show("Ingrese una cantidad válida (entero mayor que 0).");
                 return;
             }
 
             lstDatos.Items.Clear();
             lstOrdenada.Items.Clear();
 
-            txtCantidad.Text = "Registros: 0";
+            // Muestra inicio y arranca el cronómetro
+            var sw = Stopwatch.StartNew();
+            lblInicio.Text = $"Tiempo de inicio: {DateTime.Now:HH:mm:ss}";
 
             await Task.Run(() =>
             {
-                Random r = new Random();
+                var r = new Random();
                 datos = new int[n];
                 for (int i = 0; i < n; i++)
-                {
-                    datos[i] = r.Next(1, n);
-                }
+                    datos[i] = r.Next(1, n + 1);
             });
+
+            // Detengo cronómetro y actualizo labels
+            sw.Stop();
+            lblFin.Text = $"Tiempo de fin: {DateTime.Now:HH:mm:ss}";
+            lblDuracion.Text = $"Duración: {sw.Elapsed.TotalSeconds:F4} segundos";
 
             foreach (var num in datos.Take(5000))
                 lstDatos.Items.Add(num.ToString());
 
             txtCantidad.Text = $"Registros: {datos.Length}";
             MessageBox.Show("Datos Generados");
-
         }
 
-        private void btnOrdenar_Click(object sender, EventArgs e)
+        // Botón general Ordenar (mantengo por compatibilidad) - por defecto usa MergeSort
+        private async void btnOrdenar_Click(object sender, EventArgs e)
+        {
+            await EjecutarMergeSort();
+        }
+
+        // Selection Sort handler (suscrito en constructor si el diseñador usa btnSelection)
+        private async void btnSelectionSort_Click(object sender, EventArgs e)
         {
             if (datos == null)
             {
@@ -95,35 +83,63 @@ namespace AppAlgoritmo
             int[] copia = (int[])datos.Clone();
             lstOrdenada.Items.Clear();
 
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
+            var sw = Stopwatch.StartNew();
             lblInicio.Text = $"Tiempo de inicio: {DateTime.Now:HH:mm:ss}";
 
-            // Cambia según lo que quieras probar:
-            // si lo que quieres es Selection Sort, no comentes la siguiente línea y comenta la de MergeSort
-            copia = MergeSort(copia);
+            await Task.Run(() => SelectionSort(copia));
 
             sw.Stop();
             lblFin.Text = $"Tiempo de fin: {DateTime.Now:HH:mm:ss}";
-            lblDuracion.Text = $"Duración: {sw.Elapsed.TotalSeconds:F2} segundos";
+            lblDuracion.Text = $"Duración: {sw.Elapsed.TotalSeconds:F4} segundos";
 
-            foreach (var n in copia.Take(5000))
-                lstOrdenada.Items.Add(n.ToString());
+            foreach (var item in copia.Take(5000))
+                lstOrdenada.Items.Add(item.ToString());
 
-            MessageBox.Show("Ordenamiento completado.");
+            MessageBox.Show("Selection Sort completado.");
         }
 
+        // Merge Sort handler (suscrito en constructor si el diseñador usa BtnMerge)
+        private async void btnMergeSort_Click(object sender, EventArgs e)
+        {
+            await EjecutarMergeSort();
+        }
 
-        //   realice el algoritmo de Selection Sort
+        private async Task EjecutarMergeSort()
+        {
+            if (datos == null)
+            {
+                MessageBox.Show("Primero genere los datos.");
+                return;
+            }
 
+            int[] copia = (int[])datos.Clone();
+            lstOrdenada.Items.Clear();
+
+            var sw = Stopwatch.StartNew();
+            lblInicio.Text = $"Tiempo de inicio: {DateTime.Now:HH:mm:ss}";
+
+            int[] resultado = null;
+            await Task.Run(() => { resultado = MergeSort(copia); });
+
+            sw.Stop();
+            lblFin.Text = $"Tiempo de fin: {DateTime.Now:HH:mm:ss}";
+            lblDuracion.Text = $"Duración: {sw.Elapsed.TotalSeconds:F4} segundos";
+
+            foreach (var item in resultado.Take(5000))
+                lstOrdenada.Items.Add(item.ToString());
+
+            MessageBox.Show("Merge Sort completado.");
+        }
+
+        // =======================
+        //   SELECTION SORT
+        // =======================
         private void SelectionSort(int[] arr)
         {
             int n = arr.Length;
-
             for (int i = 0; i < n - 1; i++)
             {
                 int min = i;
-
                 for (int j = i + 1; j < n; j++)
                     if (arr[j] < arr[min])
                         min = j;
@@ -134,13 +150,13 @@ namespace AppAlgoritmo
             }
         }
 
-
-        //  Aqui realice el algoritmo de Merge Sort
-
+        // =======================
+        //      MERGE SORT
+        // =======================
         private int[] MergeSort(int[] arr)
         {
-            if (arr.Length <= 1)
-                return arr;
+            if (arr == null || arr.Length <= 1)
+                return arr ?? new int[0];
 
             int mid = arr.Length / 2;
             int[] izq = arr.Take(mid).ToArray();
@@ -165,41 +181,128 @@ namespace AppAlgoritmo
                     resultado[k++] = der[j++];
             }
 
-            while (i < izq.Length)
-                resultado[k++] = izq[i++];
-
-            while (j < der.Length)
-                resultado[k++] = der[j++];
+            while (i < izq.Length) resultado[k++] = izq[i++];
+            while (j < der.Length) resultado[k++] = der[j++];
 
             return resultado;
         }
 
-        // Implementación correcta de Jump Search como método separado
-        private int JumpSearch(int[] arr, int valor)
+        // =======================
+        //   JUMP SEARCH
+        // =======================
+        private async void btnJump_Click(object sender, EventArgs e)
         {
-            if (arr == null || arr.Length == 0)
-                return -1;
-
-            int n = arr.Length;
-            int paso = (int)Math.Floor(Math.Sqrt(n));
-            int prev = 0;
-
-            // aca identificamos el bloque donde puede estar el valor
-            while (prev < n && arr[Math.Min(paso, n) - 1] < valor)
+            if (datos == null)
             {
-                prev = paso;
-                paso += (int)Math.Floor(Math.Sqrt(n));
-                if (prev >= n)
-                    return -1;
+                MessageBox.Show("Primero genere los datos.");
+                return; 
             }
 
-            // esto es una busqueda lineal en el bloque identificado
-            for (int i = prev; i < Math.Min(paso, n); i++)
-                if (arr[i] == valor)
-                    return i;
+            if (!int.TryParse(txtValorBuscar.Text, out int x))
+            {
+                MessageBox.Show("Ingrese un valor entero válido en 'Valor a buscar'.");
+                return;
+            }
+
+            int[] sorted = (int[])datos.Clone();
+            Array.Sort(sorted);
+
+            var sw = Stopwatch.StartNew();
+            lblInicio.Text = $"Tiempo de inicio: {DateTime.Now:HH:mm:ss}";
+
+            int pos = -1;
+            await Task.Run(() => { pos = JumpSearch(sorted, x); });
+
+            sw.Stop();
+            lblFin.Text = $"Tiempo de fin: {DateTime.Now:HH:mm:ss}";
+            lblDuracion.Text = $"Duración: {sw.Elapsed.TotalSeconds:F6} segundos";
+
+            if (pos >= 0)
+                MessageBox.Show($"Valor {x} encontrado en la posición {pos} (0-based) en el arreglo ordenado.");
+            else
+                MessageBox.Show($"Valor {x} no encontrado.");
+        }
+
+        private int JumpSearch(int[] arr, int x)
+        {
+            if (arr == null || arr.Length == 0) return -1;
+
+            int n = arr.Length;
+            int step = (int)Math.Floor(Math.Sqrt(n));
+            int prev = 0;
+
+            while (prev < n && arr[Math.Min(step, n) - 1] < x)
+            {
+                prev = step;
+                step += (int)Math.Floor(Math.Sqrt(n));
+                if (prev >= n) return -1;
+            }
+
+            while (prev < Math.Min(step, n) && arr[prev] < x) prev++;
+
+            if (prev < n && arr[prev] == x) return prev;
+            return -1;
+        }
+
+        // =======================
+        //   INTERPOLATION SEARCH
+        // =======================
+        private async void btnInterpolada_Click(object sender, EventArgs e)
+        {
+            if (datos == null)
+            {
+                MessageBox.Show("Primero genere los datos.");
+                return;
+            }
+
+            if (!int.TryParse(txtValorBuscar.Text, out int x))
+            {
+                MessageBox.Show("Ingrese un valor entero válido en 'Valor a buscar'.");
+                return;
+            }
+
+            int[] sorted = (int[])datos.Clone();
+            Array.Sort(sorted);
+
+            var sw = Stopwatch.StartNew();
+            lblInicio.Text = $"Tiempo de inicio: {DateTime.Now:HH:mm:ss}";
+
+            int pos = -1;
+            await Task.Run(() => { pos = InterpolationSearch(sorted, x); });
+
+            sw.Stop();
+            lblFin.Text = $"Tiempo de fin: {DateTime.Now:HH:mm:ss}";
+            lblDuracion.Text = $"Duración: {sw.Elapsed.TotalSeconds:F6} segundos";
+
+            if (pos >= 0)
+                MessageBox.Show($"Valor {x} encontrado en la posición {pos} (0-based) en el arreglo ordenado.");
+            else
+                MessageBox.Show($"Valor {x} no encontrado.");
+        }
+
+        private int InterpolationSearch(int[] arr, int x)
+        {
+            if (arr == null || arr.Length == 0) return -1;
+
+            int low = 0, high = arr.Length - 1;
+            while (low <= high && x >= arr[low] && x <= arr[high])
+            {
+                if (arr[low] == arr[high])
+                    return arr[low] == x ? low : -1;
+
+                int pos = low + (int)(((double)(high - low) / (arr[high] - arr[low])) * (x - arr[low]));
+                if (pos < low || pos > high) return -1;
+
+                if (arr[pos] == x) return pos;
+                if (arr[pos] < x) low = pos + 1;
+                else high = pos - 1;
+            }
 
             return -1;
         }
     }
 }
+
+
+
 

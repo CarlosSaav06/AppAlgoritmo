@@ -40,6 +40,10 @@
             this.lblInicio = new System.Windows.Forms.Label();
             this.lblFin = new System.Windows.Forms.Label();
             this.lblDuracion = new System.Windows.Forms.Label();
+            this.btnSelection = new System.Windows.Forms.Button();
+            this.BtnMerge = new System.Windows.Forms.Button();
+            this.lblValorBusqueda = new System.Windows.Forms.Label();
+            this.txtValorBuscar = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -81,9 +85,9 @@
             // 
             // btnJump
             // 
-            this.btnJump.Location = new System.Drawing.Point(71, 130);
+            this.btnJump.Location = new System.Drawing.Point(451, 133);
             this.btnJump.Name = "btnJump";
-            this.btnJump.Size = new System.Drawing.Size(151, 48);
+            this.btnJump.Size = new System.Drawing.Size(157, 48);
             this.btnJump.TabIndex = 4;
             this.btnJump.Text = "Busqueda Jump";
             this.btnJump.UseVisualStyleBackColor = true;
@@ -91,7 +95,7 @@
             // 
             // btnInterpolada
             // 
-            this.btnInterpolada.Location = new System.Drawing.Point(235, 130);
+            this.btnInterpolada.Location = new System.Drawing.Point(451, 66);
             this.btnInterpolada.Name = "btnInterpolada";
             this.btnInterpolada.Size = new System.Drawing.Size(157, 48);
             this.btnInterpolada.TabIndex = 5;
@@ -154,11 +158,49 @@
             this.lblDuracion.TabIndex = 9;
             this.lblDuracion.Text = "Duracion: 0 Segundos";
             // 
+            // btnSelection
+            // 
+            this.btnSelection.Location = new System.Drawing.Point(71, 133);
+            this.btnSelection.Name = "btnSelection";
+            this.btnSelection.Size = new System.Drawing.Size(151, 48);
+            this.btnSelection.TabIndex = 10;
+            this.btnSelection.Text = "Selection Sort";
+            this.btnSelection.UseVisualStyleBackColor = true;
+            // 
+            // BtnMerge
+            // 
+            this.BtnMerge.Location = new System.Drawing.Point(235, 133);
+            this.BtnMerge.Name = "BtnMerge";
+            this.BtnMerge.Size = new System.Drawing.Size(157, 48);
+            this.BtnMerge.TabIndex = 11;
+            this.BtnMerge.Text = "Merge Sort";
+            this.BtnMerge.UseVisualStyleBackColor = true;
+            // 
+            // lblValorBusqueda
+            // 
+            this.lblValorBusqueda.AutoSize = true;
+            this.lblValorBusqueda.Location = new System.Drawing.Point(424, 26);
+            this.lblValorBusqueda.Name = "lblValorBusqueda";
+            this.lblValorBusqueda.Size = new System.Drawing.Size(97, 16);
+            this.lblValorBusqueda.TabIndex = 12;
+            this.lblValorBusqueda.Text = "Valor a buscar:";
+            // 
+            // txtValorBuscar
+            // 
+            this.txtValorBuscar.Location = new System.Drawing.Point(527, 26);
+            this.txtValorBuscar.Name = "txtValorBuscar";
+            this.txtValorBuscar.Size = new System.Drawing.Size(115, 22);
+            this.txtValorBuscar.TabIndex = 13;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(514, 563);
+            this.ClientSize = new System.Drawing.Size(654, 563);
+            this.Controls.Add(this.txtValorBuscar);
+            this.Controls.Add(this.lblValorBusqueda);
+            this.Controls.Add(this.BtnMerge);
+            this.Controls.Add(this.btnSelection);
             this.Controls.Add(this.lblDuracion);
             this.Controls.Add(this.lblFin);
             this.Controls.Add(this.lblInicio);
@@ -192,6 +234,10 @@
         private System.Windows.Forms.Label lblInicio;
         private System.Windows.Forms.Label lblFin;
         private System.Windows.Forms.Label lblDuracion;
+        private System.Windows.Forms.Button btnSelection;
+        private System.Windows.Forms.Button BtnMerge;
+        private System.Windows.Forms.Label lblValorBusqueda;
+        private System.Windows.Forms.TextBox txtValorBuscar;
     }
 }
 
