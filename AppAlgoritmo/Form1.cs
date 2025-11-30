@@ -12,10 +12,9 @@ namespace AppAlgoritmo
 
         public Form1()
         {
+            // Vinculo los botones del form con mis métodos (por si el diseñador los nombra diferente)
             InitializeComponent();
 
-            // Suscribo handlers a los botones para que coincidan con los nombres del diseñador
-            // (btnSelection y BtnMerge están definidos en Form1.Designer.cs)
             if (btnSelection != null)
                 btnSelection.Click += btnSelectionSort_Click;
             if (BtnMerge != null)
@@ -29,7 +28,7 @@ namespace AppAlgoritmo
         {
         }
 
-        // Genera números aleatorios
+        // Genero los numeros aleatorios para ordenar 
         private async void btnGenerar_Click(object sender, EventArgs e)
         {
             if (!int.TryParse(txtCantidad.Text, out int n) || n <= 0)
@@ -53,11 +52,12 @@ namespace AppAlgoritmo
                     datos[i] = r.Next(1, n + 1);
             });
 
-            // Detengo cronómetro y actualizo labels
+            // aca detengo cronómetro y actualizo los labels
             sw.Stop();
             lblFin.Text = $"Tiempo de fin: {DateTime.Now:HH:mm:ss}";
             lblDuracion.Text = $"Duración: {sw.Elapsed.TotalSeconds:F4} segundos";
 
+            // Solo muestro los primeros 5000 para que no se desbarate la interfaz
             foreach (var num in datos.Take(5000))
                 lstDatos.Items.Add(num.ToString());
 
@@ -65,13 +65,13 @@ namespace AppAlgoritmo
             MessageBox.Show("Datos Generados");
         }
 
-        // Botón general Ordenar (mantengo por compatibilidad) - por defecto usa MergeSort
+        // Botón de ordenar general (por defecto uso MergeSort aquí)
         private async void btnOrdenar_Click(object sender, EventArgs e)
         {
             await EjecutarMergeSort();
         }
 
-        // Selection Sort handler (suscrito en constructor si el diseñador usa btnSelection)
+       // este es el evento de selection sort
         private async void btnSelectionSort_Click(object sender, EventArgs e)
         {
             if (datos == null)
@@ -98,12 +98,13 @@ namespace AppAlgoritmo
             MessageBox.Show("Selection Sort completado.");
         }
 
-        // Merge Sort handler (suscrito en constructor si el diseñador usa BtnMerge)
+        // Por aca esta el evento del boton de merge sort
         private async void btnMergeSort_Click(object sender, EventArgs e)
         {
             await EjecutarMergeSort();
         }
 
+        // Lógica que ejecuta MergeSort y muestra resultados
         private async Task EjecutarMergeSort()
         {
             if (datos == null)
@@ -131,9 +132,10 @@ namespace AppAlgoritmo
             MessageBox.Show("Merge Sort completado.");
         }
 
-        // =======================
+        // Aqui desarrolle el algoritmo de ordenamiento
         //   SELECTION SORT
-        // =======================
+
+        // por aqui la implementación de Selection Sort
         private void SelectionSort(int[] arr)
         {
             int n = arr.Length;
@@ -150,9 +152,9 @@ namespace AppAlgoritmo
             }
         }
 
-        // =======================
+        // Este es merge sort
         //      MERGE SORT
-        // =======================
+        
         private int[] MergeSort(int[] arr)
         {
             if (arr == null || arr.Length <= 1)
@@ -168,6 +170,7 @@ namespace AppAlgoritmo
             return Merge(izq, der);
         }
 
+        // Mezclo las dos mitades ya ordenadas
         private int[] Merge(int[] izq, int[] der)
         {
             int[] resultado = new int[izq.Length + der.Length];
@@ -181,15 +184,16 @@ namespace AppAlgoritmo
                     resultado[k++] = der[j++];
             }
 
+            // aqui agrego los elementos que hagan falta
             while (i < izq.Length) resultado[k++] = izq[i++];
             while (j < der.Length) resultado[k++] = der[j++];
 
             return resultado;
         }
 
-        // =======================
+        // Por aca desarrolle el algoritimo de busqueda
         //   JUMP SEARCH
-        // =======================
+      
         private async void btnJump_Click(object sender, EventArgs e)
         {
             if (datos == null)
@@ -204,6 +208,7 @@ namespace AppAlgoritmo
                 return;
             }
 
+            // ordeno primero porque jump seach requiere orden
             int[] sorted = (int[])datos.Clone();
             Array.Sort(sorted);
 
@@ -223,6 +228,7 @@ namespace AppAlgoritmo
                 MessageBox.Show($"Valor {x} no encontrado.");
         }
 
+        // por aqui la implementación de Jump Search
         private int JumpSearch(int[] arr, int x)
         {
             if (arr == null || arr.Length == 0) return -1;
@@ -231,6 +237,7 @@ namespace AppAlgoritmo
             int step = (int)Math.Floor(Math.Sqrt(n));
             int prev = 0;
 
+            //Este while lo uso para ir saltando bloques hasta donde deberia estar el valor
             while (prev < n && arr[Math.Min(step, n) - 1] < x)
             {
                 prev = step;
@@ -238,15 +245,16 @@ namespace AppAlgoritmo
                 if (prev >= n) return -1;
             }
 
+            //Esta la busqueda lineal dentro del bloque encontrado
             while (prev < Math.Min(step, n) && arr[prev] < x) prev++;
 
             if (prev < n && arr[prev] == x) return prev;
             return -1;
         }
 
-        // =======================
+        // Este es el algoritmo de busqueda de:
         //   INTERPOLATION SEARCH
-        // =======================
+       
         private async void btnInterpolada_Click(object sender, EventArgs e)
         {
             if (datos == null)
@@ -280,16 +288,20 @@ namespace AppAlgoritmo
                 MessageBox.Show($"Valor {x} no encontrado.");
         }
 
+        //Esta es la implementacion del algoritmo de busqueda interpolada
         private int InterpolationSearch(int[] arr, int x)
         {
             if (arr == null || arr.Length == 0) return -1;
 
             int low = 0, high = arr.Length - 1;
+
+            //Mientras el valor este dentro del rango del arreglo
             while (low <= high && x >= arr[low] && x <= arr[high])
             {
                 if (arr[low] == arr[high])
                     return arr[low] == x ? low : -1;
 
+                //Formula de interpolación para encontrar la posición probable
                 int pos = low + (int)(((double)(high - low) / (arr[high] - arr[low])) * (x - arr[low]));
                 if (pos < low || pos > high) return -1;
 
